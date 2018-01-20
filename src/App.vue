@@ -2,22 +2,26 @@
   <div class="app">
     <div class="colors">
       <div v-for="(color, index) in colors" class="color" :style="{ backgroundColor: color.value }">
-        <input class="color-input" type="text" placeholder="#ffffff" v-model.trim="color.value">
+        <color-input v-model="color.value"></color-input>
         <a class="color-action" href="#" v-if="colors.length > 1" v-on:click.prevent="removeColor(index)">Remove</a>
       </div>
     </div>
 
-    <div class="toolbar">
-      <a class="toolbar-item" href="#" v-on:click.prevent="addColor">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      </a>
-    </div>
+    <a class="add-color" href="#" v-on:click.prevent="addColor">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+    </a>
   </div>
 </template>
 
 <script>
+import ColorInput from './ColorInput'
+
 export default {
   name: 'app',
+  components: {
+    ColorInput
+  },
+
   data () {
     return {
       colors: [
@@ -32,10 +36,6 @@ export default {
     addColor: function() {
       console.log('adding color')
       this.colors.push({ value: '' })
-    },
-
-    updateColor: function() {
-
     },
 
     removeColor: function(index) {
@@ -135,13 +135,16 @@ $breakpoint: 576px;
   }
 }
 
-.toolbar {
+.add-color {
+  background-color: rgba(0, 0, 0, 0.5);
   grid-area: toolbar;
-  padding: 0.5rem 0;
+  color: #fff;
+  font-size: 2rem;
+  text-decoration: none;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
   transition: background-color 0.1s ease;
 
   &:hover {
@@ -149,17 +152,11 @@ $breakpoint: 576px;
   }
 
   @media (min-width: $breakpoint) {
+    padding: 1rem 0;
     align-self: center;
     background-color: rgba(0, 0, 0, 0.5);
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
   }
-}
-
-.toolbar-item {
-  color: #fff;
-  font-size: 2rem;
-  text-decoration: none;
-  line-height: 1;
 }
 </style>
